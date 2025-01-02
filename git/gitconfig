@@ -109,7 +109,7 @@
 
   # Apply/pop stash.
   sa = stash apply
-  sp = stash pop.
+  sp = stash pop
 
   # Commit unsataged changes with a message, but mark as "squashable" for another commit (useful when rebasing).
   squash = commit --squash -m

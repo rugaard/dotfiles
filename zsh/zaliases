@@ -14,14 +14,21 @@ alias cp="cp -i" \
 # Shortcuts
 # ------------------------------------------------------------------------------
 alias icloud="cd ~/Library/Mobile\ Documents/com~apple~CloudDocs" \
-      sites="cd ~/Sites"
+      sites="cd ~/Sites" \
+      projects="cd ~/Sites/Private" \
+      aller="cd ~/Sites/Aller"
 
 # ------------------------------------------------------------------------------
 # Laravel
 # ------------------------------------------------------------------------------
 alias pa="php artisan" \
-      pam="php artisan migrate" \
-      pams="php artisan migrate:status"
+      "pa:m"="php artisan migrate" \
+      "pa:mf"="php artisan migrate:fresh" \
+      "pa:mr"="php artisan migrate:rollback" \
+      "pa:ms"="php artisan migrate:status" \
+      "pa:rl"="php artisan route:list" \
+      "pa:qw"="php artisan queue:work" \
+      "pa:sw"="php artisan schedule:work"
 
 # ------------------------------------------------------------------------------
 # Composer
