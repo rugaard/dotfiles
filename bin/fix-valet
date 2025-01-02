@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+# Due to Aller machines using FortiClient as VPN clients,
+# the firewall rules of the machine are being changed in a way
+# that when we're using Valet, it ends up in some kind of loop.
+#
+# This script should fix the issue, by resetting the firewall rules.
+
+# Reset the rules based off the on-disk version.
+sudo pfctl -N -f /etc/pf.conf
+
+# Clear the DNS cache on system.
+sudo dscacheutil -flushcache
+sudo killall -HUP mDNSResponder

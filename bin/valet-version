@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+if ! command -v valet &> /dev/null || [[ $(valet on-latest-version) == 'Yes' ]]; then
+  exit 0;
+fi
+
+/opt/homebrew/bin/terminal-notifier \
+  -sender "com.apple.Terminal" \
+  -group "me.rugaard.valet" \
+  -title 'Laravel Valet' \
+  -message 'A new version is available.' \
+  -sound Blow \
+  -remove "me.rugaard.valet"

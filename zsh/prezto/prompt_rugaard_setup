@@ -1,0 +1,273 @@
+#
+# A theme based on Steeef & Steve Losh's Extravagant Prompt
+#
+# Authors:
+#   Steve Losh <steve@stevelosh.com>
+#   Bart Trojanowski <bart@jukie.net>
+#   Brian Carper <brian@carper.ca>
+#   steeef <steeef@gmail.com>
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#   Morten Rugaard <morten@rugaard.me>
+#
+# Screenshots:
+#   @todo
+#
+
+function scan_composer_packages {
+
+  # Prioritized order of packages
+  local -A packages=(
+    "laravel/framework" "Laravel"
+    "laravel/lumen-framework" "Lumen"
+  )
+
+  # Global array with found packages
+  typeset -ga composerPackages
+  composerPackages=()
+
+  # Path variable used to move up levels
+  local pathLevels="./"
+
+  # Look for composer.lock file
+  while [ "$(cd $pathLevels && pwd)" != "/" ]; do
+
+    # Directory does not contain "composer.lock"
+    # so we'll jump one level up and try again
+    if [ ! -f "${pathLevels}composer.lock" ]; then
+      pathLevels+="../"
+      continue;
+    fi
+
+    # Composer.lock found
+    # Look for packages and their version
+    for i in "${(@k)packages}"; do
+      # Try and extract version of package
+      local packageVersion=$(cd $pathLevels && composer show | grep "$i "| awk  '{print $2}' | sed 's/[^0-9.]//')
+
+      # Package version found - add it to global array
+      if [ -n "$packageVersion" ]; then
+        composerPackages+="$packages[$i] v$packageVersion"
+      fi
+    done
+    break
+  done
+}
+
+function prompt_composer_packages {
+
+  # Make sure we have packages to show
+  [ -z "$composerPackages" ] && return
+
+  local prompt=''
+
+  for package in $composerPackages; do
+    if [ -z "$prompt" ]; then
+      prompt+=" using "
+    else
+      prompt+=" and "
+    fi
+
+    prompt+="${YELLOW}$package${RESET}"
+  done
+
+  print -P "$prompt"
+}
+
+function prompt_git_info {
+
+  # Check if current directory is a Git repository
+  [ -z "${git_info}" ] && return
+
+  # Base info
+  local gitinfo=" on ${BROWN}${git_info[prompt_info]}"
+
+  # Remote status
+  if [ -n "${git_info[remote_status]}" ]; then
+    gitinfo+=' ${git_info[remote_status]}'
+  fi
+
+  # Local status
+  if [ -n "${git_info[local_status]}" ]; then
+    gitinfo+=' [${git_info[local_status]}]'
+  fi
+
+  # Commit hash
+  if [ -n "${git_info[sha]}" ]; then
+    gitinfo+=' <${git_info[sha]}>'
+  fi
+
+  # Action state
+  if [ -n "${git_info[action_state]}" ]; then
+    gitinfo+=' ${git_info[action_state]}'
+  fi
+
+  print -P "$gitinfo${RESET}"
+}
+
+function prompt_rugaard_precmd {
+  # Get Git repository info
+  if (( $+functions[git-info] )); then
+    git-info
+  fi
+
+  # Get Python info
+  if (( $+functions[python-info] )); then
+    python-info
+  fi
+
+  # Get Ruby info
+  if (( $+functions[ruby-info] )); then
+    ruby-info
+  fi
+
+  scan_composer_packages
+
+  prompt_rugaard_preprompt_render
+}
+
+function prompt_rugaard_clear_screen {
+
+  # Enable output to terminal.
+  zle -I
+
+  clear
+  prompt_rugaard_preprompt_render
+
+}
+
+function prompt_rugaard_preprompt_render {
+
+  # Base pre-prompt
+  local preprompt='\n${PURPLE}${prompt_user_symbol}${RESET} ${prompt_user_host} in ${TEAL}%~${RESET}'
+
+  # Add Git information to pre-prompt
+  preprompt+=$(prompt_git_info)
+
+  #
+  preprompt+=$(prompt_composer_packages)
+
+  # Newline + Prompt line 1 (set above PROMPT, below).
+  print -P $preprompt;
+}
+
+function prompt_rugaard_setup {
+  # Load necessary modules
+  setopt LOCAL_OPTIONS
+  unsetopt XTRACE KSH_ARRAYS
+  prompt_opts=(percent subst)
+
+  # Load required functions
+  autoload -Uz add-zsh-hook
+
+  # Add hook for getting misc. version before each command
+  add-zsh-hook precmd prompt_rugaard_precmd
+
+  # Override the default clear-screen
+  # so that ^L displays the prompt in it's entirety.
+  if [[ $widgets[clear-screen] == 'builtin' ]]; then
+    zle -N clear-screen prompt_rugaard_clear_screen
+  fi
+
+  #
+  # Colors
+  #
+
+  # Load colors module
+  [[ -z $(functions colors) ]] && autoload -U colors && colors
+
+  # Assign aliases to colors
+  eval RESET="%f"
+  eval DARKGREY="%F{0}"
+  #eval RED="%F{1}"
+  #eval GREEN="%F{2}"
+  eval YELLOW="%F{3}"
+  eval BLUE="%F{4}"
+  eval MAGENTA="%F{5}"
+  eval TURQUOISE="%F{6}"
+  #eval DARKWHITE="%F{7}"
+  #eval LIGHTGREY="%F{8}"
+  #eval PINK="%F{9}"
+  eval TEAL="%F{10}"
+  eval ORANGE="%F{11}"
+  eval PURPLE="%F{12}"
+  #eval LIGHTPINK="%F{13}"
+  eval BROWN="%F{14}"
+  #eval WHITE="%F{15}"
+
+  #
+  # Username and hostname colors
+  #
+
+  # Change color if user is root
+  if [[ "$EUID" = "0" ]] || [[ "$USER" = 'root' ]]; then
+    eval prompt_user_symbol="!"
+    eval prompt_user="${RED}%n${RESET}"
+  else
+    eval prompt_user_symbol="#"
+    eval prompt_user="${BLUE}%n${RESET}"
+  fi
+
+  # Only set hostname on SSH connections
+  if [[ -n "$SSH_CLIENT" || -n "$SSH2_CLIENT" ]]; then
+    eval prompt_hostname="${TURQUOISE}%m${RESET}"
+  fi
+
+  # Assemble username and hostname
+  eval prompt_user_host="${prompt_user}"
+  if [ -n "${prompt_hostname}" ]; then
+    prompt_user_host+=" at ${prompt_hostname}"
+  fi
+
+  #
+  # Git info
+  # NOTE: Listed in order in which the information will appear in the prompt.
+  #
+
+  # Git verbose data (commit counts, etc.)
+  zstyle ':prezto:module:git:info' verbose 'yes'
+
+  # Git prompt info
+  zstyle ':prezto:module:git:info:branch'    format "git:%b"
+  zstyle ':prezto:module:git:info:remote'    format "%R"
+  zstyle ':prezto:module:git:info:position'  format "%p"
+
+  # Git remote status
+  zstyle ':prezto:module:git:info:behind'    format "↑"
+  zstyle ':prezto:module:git:info:ahead'     format "↓"
+  zstyle ':prezto:module:git:info:diverged'  format "⇅"
+
+  # Git local status
+  zstyle ':prezto:module:git:info:clean'     format ""
+  zstyle ':prezto:module:git:info:dirty'     format ""
+  zstyle ':prezto:module:git:info:added'     format "+"
+  zstyle ':prezto:module:git:info:deleted'   format "×"
+  zstyle ':prezto:module:git:info:modified'  format "#"
+  zstyle ':prezto:module:git:info:renamed'   format "⇾"
+  zstyle ':prezto:module:git:info:unmerged'  format "="
+  zstyle ':prezto:module:git:info:untracked' format "?"
+  zstyle ':prezto:module:git:info:stashed'   format "*"
+
+  # Git commit SHA
+  zstyle ':prezto:module:git:info:commit'    format "%.7c"
+
+  # Git action info
+  zstyle ':prezto:module:git:info:action'    format "%s"
+
+  # Git prompt styles
+  zstyle ':prezto:module:git:info:keys' format \
+    'prompt_info'    "%b" \
+    'rprompt'        "%R" \
+    'repo_state'     "%C%D" \
+    'remote_status'  "%B%A" \
+    'sha'            "%c" \
+    'local_status'   "%a%d%m%r%U%u%S" \
+    'action_state'   "%s" \
+
+  #
+  # Define prompts
+  #
+
+  PROMPT="$LIGHTGREY%(?.$LIGHTGREY.$MAGENTA)❯$RESET "
+}
+
+prompt_rugaard_setup "$@"
