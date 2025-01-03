@@ -18,7 +18,7 @@ main() {
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  print_header "Aller environment"
+  print_header "Work environment"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -28,6 +28,8 @@ main() {
   brew_install_cask "Figma" "figma"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  printf "\n"
 
   print_subheader "Command line tools"
 

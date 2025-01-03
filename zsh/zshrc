@@ -109,6 +109,11 @@ setopt HIST_IGNORE_DUPS
 # Share history between all sessions
 setopt SHARE_HISTORY
 
+#
+# Dotfiles
+#
+
+export DOTFILES="${ZDOTDIR:-$HOME}/.dotfiles"
 
 #
 # Load other dotfiles

@@ -59,8 +59,9 @@ main() {
   install_vscode_extension "Vue - Official" "Vue.volar"
   install_vscode_extension "YAML" "redhat.vscode-yaml"
 
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  printf "\n"
 
   print_subheader "Command line tools"
 
@@ -158,15 +159,15 @@ main() {
     print_success "Create '~/Sites' folder"
   fi
 
+  execute "cd ${HOME}/Sites && ${HOME}/.composer/vendor/bin/valet park" \
+    "Park Valet at '~/Sites'"
+
   if [ ! -d "${HOME}/Sites/Private" ]; then
     mkdir -p "${HOME}/Sites/Private"
     print_result $? "Create '~/Sites/Private' folder"
   else
     print_success "Create '~/Sites/Private' folder"
   fi
-
-  execute "cd ${HOME}/Sites && ${HOME}/.composer/vendor/bin/valet park" \
-    "Park Valet at '~/Sites'"
 
   execute "cd ${HOME}/Sites/Private && ${HOME}/.composer/vendor/bin/valet park" \
     "Park Valet at '~/Sites/Private'"

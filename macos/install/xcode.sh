@@ -12,13 +12,20 @@ declare SKIP_QUESTIONS=false
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-agree_with_xcode_licence() {
+agree_with_xcode_license() {
 
   # Automatically agree to the terms of the `Xcode` license.
   # https://github.com/alrra/dotfiles/issues/10
 
-  sudo xcodebuild -license accept &> /dev/null
-  print_result $? "Agree to the terms of the Xcode licence"
+  local XCODE_VERSION="$(xcodebuild -version | grep '^Xcode\s' | sed -E 's/^Xcode[[:space:]]+([0-9\.]+)/\1/')"
+  local ACCEPTED_LICENSE_VERSION="$(defaults read /Library/Preferences/com.apple.dt.Xcode 2> /dev/null | grep IDEXcodeVersionForAgreedToGMLicense | cut -d '"' -f 2)"
+
+  if [[ "${XCODE_VERSION}" != "${ACCEPTED_LICENSE_VERSION}" ]]; then
+    sudo xcodebuild -license accept &> /dev/null
+    print_result $? "Agree to the terms of the Xcode license"
+  else
+    print_success "Agree to the terms of the Xcode license"
+  fi
 
 }
 
@@ -88,7 +95,7 @@ main() {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   install_xcode_command_line_tools
-  agree_with_xcode_licence
+  agree_with_xcode_license
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

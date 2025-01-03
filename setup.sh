@@ -11,6 +11,10 @@ declare -r DOTFILES_UTILITIES_URL="https://raw.githubusercontent.com/${GITHUB_RE
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+declare -r ICLOUD_DIRECTORY="${HOME}/Library/Mobile Documents/com~apple~CloudDocs/Dotfiles"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 declare DOTFILES_DIRECTORY="${HOME}/.dotfiles"
 declare SKIP_QUESTIONS=false
 
@@ -132,12 +136,12 @@ download_utilities() {
 
 extract() {
 
-  local archive="$1"
-  local outputDir="$2"
+  local archive="${1}"
+  local outputDir="${2}"
 
   if command -v "tar" &> /dev/null; then
     tar --extract --gzip --file "${archive}" --strip-components 1 --directory "${outputDir}"
-    return $?
+    return ${?}
   fi
 
   return 1
@@ -186,7 +190,7 @@ main() {
   # Load utilities
 
   if [ -x "./utilities.sh" ]; then
-    . ./utilities.sh || exit 1
+    \. ./utilities.sh || exit 1
   else
     download_utilities || exit 1
   fi
@@ -229,63 +233,68 @@ main() {
       print_warning "Full disk access is required!\n"
       print_in_white "   This application does not have full disk access.\n\n"
       print_in_white "   Without full disk access, this setup script will not be able\n"
-      print_in_white "   to complete most of it's settings changes and installation tasks.\n\n"
+      print_in_white "   to complete most of it's setting changes and installation tasks.\n\n"
       print_in_white "   Go to "
       print_in_teal "System Preferences > Security & Privacy"
-      print_in_white " and add this terminal\n"
+      print_in_white " and add this terminal app\n"
       print_in_white "   to the "
       print_in_green "Full Disk Access"
       print_in_white ", restart the app and re-run this script.\n\n"
       print_in_white "   Alternatively you can disable System Integration Protection (SIP):\n"
-      print_in_purple "   https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection\n"
+      print_in_purple "  https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection\n"
       exit 1;
     fi
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  # Set computer name.
+  # Configure macOS.
 
-  # if ${SKIP_QUESTIONS}; then
-  #     ./macos/set_computer_name.sh -y
-  # else
-  #     ./macos/set_computer_name.sh -n
-  # fi
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    if ${SKIP_QUESTIONS}; then
-      ./macos/main.sh -y
-    else
-      ./macos/main.sh
-    fi
+  if ${SKIP_QUESTIONS}; then
+    ./macos/main.sh -y
+  else
+    ./macos/main.sh
+  fi
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  # if cmd_exists "git"; then
+  # Configure local settings (from iCloud).
 
-  #     print_in_white "\n   ---\n"
+  if [[ -d "${ICLOUD_DIRECTORY}" ]] && [[ -f "${ICLOUD_DIRECTORY}/setup.sh" ]]; then
 
-  #     if [ "$(git config --get remote.origin.url)" != "${DOTFILES_ORIGIN}" ]; then
-  #         ./initialize_git_repository.sh "${DOTFILES_ORIGIN}"
-  #     fi
+    print_in_white "\n   ---\n\n"
 
-  #     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    \. "${ICLOUD_DIRECTORY}/setup.sh" "${DOTFILES_DIRECTORY}"
 
-  #     if ! $SKIP_QUESTIONS; then
-  #         ./update_content.sh
-  #     fi
-
-  # fi
+  fi
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  # if [[ -d "${ICLOUD_DIRECTORY}" ]]; then
+  if cmd_exists "git"; then
 
-  #   print_in_white "\n   ---\n\n"
+      print_in_white "\n   ---\n"
 
-  #   \. "${ICLOUD_DIRECTORY}/Dotfiles/load.sh" "${DOTFILES_DIRECTORY}"
+      if [ "$(git config --get remote.origin.url)" != "${DOTFILES_ORIGIN}" ]; then
 
-  # fi
+          print_header "Initialize Git repository"
+
+          execute "git init && git remote add origin ${DOTFILES_ORIGIN}" \
+            "Initialize the Git repository"
+
+      fi
+
+      # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      printf "\n"
+
+      if ! ${SKIP_QUESTIONS}; then
+          ask_for_confirmation "Do you want to update to latest version from the 'dotfiles' repository?"
+      fi
+
+      if ${SKIP_QUESTIONS} || answer_is_yes; then
+          ./update.sh
+      fi
+
+  fi
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

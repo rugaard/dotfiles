@@ -22,13 +22,17 @@ alias icloud="cd ~/Library/Mobile\ Documents/com~apple~CloudDocs" \
 # Laravel
 # ------------------------------------------------------------------------------
 alias pa="php artisan" \
+      "pa:cc"="php artisan cache:clear" \
       "pa:m"="php artisan migrate" \
       "pa:mf"="php artisan migrate:fresh" \
       "pa:mr"="php artisan migrate:rollback" \
       "pa:ms"="php artisan migrate:status" \
+      "pa:o"="php artisan optimize" \
+      "pa:oc"="php artisan optimize:clear" \
       "pa:rl"="php artisan route:list" \
       "pa:qw"="php artisan queue:work" \
-      "pa:sw"="php artisan schedule:work"
+      "pa:sw"="php artisan schedule:work" \
+      "pa:vp"="php artisan vendor:publish"
 
 # ------------------------------------------------------------------------------
 # Composer

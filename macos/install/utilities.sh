@@ -123,7 +123,7 @@ install_vscode_extension() {
     declare -r EXTENSION_NAME="${2}"
     declare -r EXTENSION_READABLE_NAME="${1}"
 
-    execute "echo '' | /Applications/Visual Studio Code.app/Contents/Resources/app/bin/code --install-extension ${EXTENSION_NAME}" \
+    execute "echo '' | /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ${EXTENSION_NAME}" \
       "${EXTENSION_READABLE_NAME}"
 }
 

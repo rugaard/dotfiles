@@ -34,15 +34,34 @@ main() {
 
   print_in_white "\n   ---\n"
 
-  # Applications.
+  # Set computer name.
 
-  if ! ${SKIP_QUESTIONS}; then
+  if ${SKIP_QUESTIONS}; then
+    ./install/set_computer_name.sh -y
+  else
     printf "\n"
-    ask_for_confirmation "Do you want to install applications?"
+    ask_for_confirmation "Do you wish to set the computer name?"
+
+    if answer_is_yes; then
+      ./install/set_computer_name.sh
+    fi
   fi
 
-  if ${SKIP_QUESTIONS} || answer_is_yes; then
-    ./install/applications.sh
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  print_in_white "\n   ---\n"
+
+  # Applications.
+
+  if ${SKIP_QUESTIONS}; then
+    ./install/applications.sh -y
+  else
+    printf "\n"
+    ask_for_confirmation "Do you want to install applications?"
+
+    if answer_is_yes; then
+      ./install/applications.sh
+    fi
   fi
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -51,13 +70,15 @@ main() {
 
   # Command Line Tools.
 
-  if ! ${SKIP_QUESTIONS}; then
+  if ${SKIP_QUESTIONS}; then
+    ./install/tools.sh -y
+  else
     printf "\n"
     ask_for_confirmation "Do you want to install command line tools?"
-  fi
 
-  if ${SKIP_QUESTIONS} || answer_is_yes; then
-    ./install/tools.sh
+    if answer_is_yes; then
+      ./install/tools.sh
+    fi
   fi
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -66,13 +87,15 @@ main() {
 
   # Cron jobs.
 
-  if ! ${SKIP_QUESTIONS}; then
+  if ${SKIP_QUESTIONS}; then
+    ./install/cron.sh -y
+  else
     printf "\n"
     ask_for_confirmation "Do you want to install cron jobs?"
-  fi
 
-  if ${SKIP_QUESTIONS} || answer_is_yes; then
-    ./install/cron.sh
+    if answer_is_yes; then
+      ./install/cron.sh
+    fi
   fi
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -81,13 +104,100 @@ main() {
 
   # Quick Look addons.
 
-  if ! ${SKIP_QUESTIONS}; then
+  if ${SKIP_QUESTIONS}; then
+    ./install/quicklooks.sh -y
+  else
     printf "\n"
     ask_for_confirmation "Do you want to install 'Quick Look' addons?"
+
+    if answer_is_yes; then
+      ./install/quicklooks.sh
+    fi
   fi
 
-  if ${SKIP_QUESTIONS} || answer_is_yes; then
-    ./install/quicklooks.sh
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  print_in_white "\n   ---\n"
+
+  # Developer environment.
+
+  if ${SKIP_QUESTIONS}; then
+    ./install/developer.sh -y
+  else
+    printf "\n"
+    ask_for_confirmation "Do you want to install developer environment?"
+
+    if answer_is_yes; then
+      ./install/developer.sh
+    fi
+  fi
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  print_in_white "\n   ---\n"
+
+  # Work environment.
+
+  if ${SKIP_QUESTIONS}; then
+    ./install/work.sh -y
+  else
+    printf "\n"
+    ask_for_confirmation "Do you want to install work environment?"
+
+    if answer_is_yes; then
+      ./install/work.sh
+    fi
+  fi
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  print_in_white "\n   ---\n"
+
+  # Configure shell.
+
+  if ${SKIP_QUESTIONS}; then
+    ./install/zsh.sh -y
+  else
+    printf "\n"
+    ask_for_confirmation "Do you want to configure the shell?"
+
+    if answer_is_yes; then
+      ./install/zsh.sh
+    fi
+  fi
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  print_in_white "\n   ---\n"
+
+  # Configure git profile.
+
+  if ${SKIP_QUESTIONS}; then
+    ./git_profile.sh -y
+  else
+    printf "\n"
+    ask_for_confirmation "Do you want to configure your Git profile?"
+
+    if answer_is_yes; then
+      ./git_profile.sh
+    fi
+  fi
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  print_in_white "\n   ---\n"
+
+  # Configure custom app icons.
+
+  if ${SKIP_QUESTIONS}; then
+    ./install/icons.sh -y
+  else
+    printf "\n"
+    ask_for_confirmation "Do you want to customize application icons?"
+
+    if answer_is_yes; then
+      ./install/icons.sh
+    fi
   fi
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -124,53 +234,6 @@ main() {
 
     killall "cfprefsd" &> /dev/null
     killall "corebrightnessd" &> /dev/null
-  fi
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  print_in_white "\n   ---\n"
-
-  # Icons.
-
-  if ! ${SKIP_QUESTIONS}; then
-    printf "\n"
-    ask_for_confirmation "Do you want to customize application icons?"
-  fi
-
-  if ${SKIP_QUESTIONS} || answer_is_yes; then
-    ./install/icons.sh
-  fi
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  print_in_white "\n   ---\n"
-
-  # Developer environment.
-
-  if ! ${SKIP_QUESTIONS}; then
-    printf "\n"
-    ask_for_confirmation "Do you want to install the developer environment?"
-  fi
-
-  if ${SKIP_QUESTIONS} || answer_is_yes; then
-    ./install/developer.sh
-  fi
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  print_in_white "\n   ---\n"
-
-  # Shell
-
-  if ${SKIP_QUESTIONS}; then
-    ./install/zsh.sh -y
-  else
-    printf "\n"
-    ask_for_confirmation "Do you want to configure the shell?"
-
-    if answer_is_yes; then
-      ./install/zsh.sh
-    fi
   fi
 
 }

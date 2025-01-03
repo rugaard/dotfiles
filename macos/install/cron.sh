@@ -16,7 +16,7 @@ main() {
 
   print_subheader "Install"
 
-  hardlink "../../../cron/valet.plist" "${HOME}/Library/LaunchAgents/me.rugaard.valet.plist" "Check for newer version of Laravel Valet"
+  hardlink "../../cron/valet.plist" "${HOME}/Library/LaunchAgents/me.rugaard.valet.plist" "Check for newer version of Laravel Valet"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

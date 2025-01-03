@@ -31,15 +31,15 @@ main() {
 
   brew_install_cask "Preview plain text files without or with unknown file extension" "qlstephen"
 
-  execute "xattr -cr ~/Library/QuickLook/QLStephen.qlgenerator" \
-    "Fix 'qlstephen' not being able to open due to unverified developer."
+  # execute "xattr -cr ~/Library/QuickLook/QLStephen.qlgenerator" \
+  #   "Fix 'qlstephen' not being able to open due to unverified developer."
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   brew_install_cask "Preview source code files with syntax highlighting" "qlcolorcode"
 
-  execute "xattr -cr ~/Library/QuickLook/QLColorCode.qlgenerator" \
-    "Fix 'QLColorCode' not being able to open due to unverified developer."
+  # execute "xattr -cr ~/Library/QuickLook/QLColorCode.qlgenerator" \
+  #   "Fix 'QLColorCode' not being able to open due to unverified developer."
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
