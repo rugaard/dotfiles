@@ -1,0 +1,167 @@
+#
+# Source Prezto
+#
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+	source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# Customize to your needs...
+
+#
+# Paths
+#
+
+# Set the list of directories that Zsh searches for programs.
+path=(
+	$path
+	"${ZDOTDIR:-$HOME}/.dotfiles/bin"
+	"${ZDOTDOR:-$HOME}/.composer/vendor/bin"
+	"${ZDOTDOR:-$HOME}/.nvm"
+  /Applications/Visual Studio Code.app/Contents/Resources/app/bin
+)
+
+# Set the list of directories that Zsh should look for functions
+fpath=(
+	"/usr/local/bin"
+	$fpath
+)
+
+
+#
+# Directory
+#
+
+# Auto changes to a directory without typing 'cd'
+setopt AUTO_CD
+
+# Pushes the old directory onto the stack on 'cd'
+setopt AUTO_PUSHD
+
+# Does not store duplicates in the stack
+setopt PUSHD_IGNORE_DUPS
+
+# Pushes to the home directory when no argument is given
+setopt PUSHD_TO_HOME
+
+# Auto adds variable-stored paths to '~' list
+setopt AUTO_NAME_DIRS
+
+# Writes to multiple descriptors (aka. pipe to multiple outputs)
+setopt MULTIOS
+
+
+#
+# Expansion & globbing
+#
+
+# Treat the ‘#’, ‘~’ and ‘^’ characters as part of patterns
+setopt EXTENDED_GLOB
+
+# Patterns are active in completion
+setopt GLOB_COMPLETE
+
+# Case-insensitive globbing
+setopt NO_CASE_GLOB
+
+# Numbers in globs sorted numerically
+setopt NUMERIC_GLOB_SORT
+
+# Array expansions of the form ‘foo${xx}bar’
+setopt RC_EXPAND_PARAM
+
+
+#
+# Input/Output
+#
+
+# Prevents from accidentally overwriting an existing file
+setopt NO_CLOBBER
+
+# Disable flow control
+setopt NO_FLOW_CONTROL
+
+# Wait 10 seconds before deleting everything
+setopt RM_STAR_WAIT
+
+
+#
+# History
+#
+
+# Path to the history file
+HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
+
+# Maximum number of events saved in the internal history
+HISTSIZE=10000
+
+# Maximum number of events save in the history file
+SAVEHIST=10000
+
+# Writes the history file in the :start:elapsed;command format
+setopt EXTENDED_HISTORY
+
+# Writes to the history file immediately, not when the shell exits
+setopt INC_APPEND_HISTORY
+
+# Does not record an event that was just recorded again
+setopt HIST_IGNORE_DUPS
+
+# Share history between all sessions
+setopt SHARE_HISTORY
+
+#
+# Dotfiles
+#
+
+export DOTFILES="${ZDOTDIR:-$HOME}/.dotfiles"
+
+#
+# Load other dotfiles
+#
+
+# Array of dotfiles to load
+declare -a DOTFILES_TO_LOAD=(
+	"${ZDOTDIR:-$HOME}/.zaliases"
+	"${ZDOTDIR:-$HOME}/.zaliases.local"
+	"${ZDOTDIR:-$HOME}/.zshrc.local"
+)
+
+# Loop through array of dotfiles and load the files that exist
+for i in ${DOTFILES_TO_LOAD[*]}; do
+	if [ -f "$i" ]; then
+		source "$i" &> /dev/null
+	fi
+done
+
+#
+# Homebrew
+#
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Auto remove cached files older than after 10 days.
+export HOMEBREW_CLEANUP_MAX_AGE_DAYS=10
+
+# Periodically auto remove files every other day.
+# (only when running 'install', 'reinstall' or 'upgrade')
+export HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS=2
+
+# Do not send analytics.
+export HOMEBREW_NO_ANALYTICS=1
+
+# Do not automatically run update before running 'install', 'upgrade' and 'tap' commands.
+export HOMEBREW_NO_AUTO_UPDATE=1
+
+#
+# Composer
+#
+
+# Disable the warning about running commands as root/super user.
+export COMPOSER_ALLOW_SUPERUSER=1
+
+# Suppress warning when Composer is running with the Xdebug extension enabled.
+export COMPOSER_DISABLE_XDEBUG_WARN=1
+
+#
+# Node version manager (NVM)
+#
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"

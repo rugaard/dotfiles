@@ -1,0 +1,98 @@
+* text=auto
+* whitespace=tab-in-indent,trailing-space
+
+# Source code
+*.css                       text
+*.htm                       text diff=html
+*.html                      text diff=html
+*.ini                       text
+*.js                        text
+*.json                      text
+*.less                      text
+*.php                       text diff=php whitespace=-blank-at-eof
+*.phps                      text diff=php whitespace=-blank-at-eof
+*.sass                      text
+*.scss                      text
+*.sh                        text eol=lf
+*.sql                       text
+*.vue                       text
+*.xml                       text
+*.xhtml                     text diff=html
+
+# Package Managers
+composer.lock               text -diff
+package-lock.json           text -diff
+yarn.lock                   text -diff
+
+# Configs
+*.cnf                       text
+*.conf                      text
+*.config                    text
+.editorconfig               text
+.env                        text
+.env.example                text
+.gitattributes              text
+.gitconfig                  text
+.gitignore                  text
+.htaccess                   text
+*.lock                      text
+*.npmignore                 text
+*.yaml                      text whitespace=tabwidth=2
+*.yml                       text whitespace=tabwidth=2
+
+# Compiled assets
+public/js/*.js              text -diff linguist-vendored
+public/css/*.css            text -diff linguist-vendored
+public/assets/js/*.js       text -diff linguist-vendored
+public/assets/css/*.css     text -diff linguist-vendored
+rev-manifest.json           text -diff linguist-vendored
+*.map                       text -diff linguist-vendored
+
+# Docker
+*.dockerignore              text
+Dockerfile                  text
+
+# Documentation
+*.md                        text
+*.pdf                       -text diff
+*.txt                       text
+AUTHORS                     text
+CHANGELOG                   text
+CONTRIBUTING                text
+LICENSE                     text
+README                      text
+TODO                        text
+
+# Graphics
+*.gif                       -text diff
+*.ico                       -text diff
+*.jpg                       -text diff
+*.jpeg                      -text diff
+*.png                       -text diff
+*.svg                       text
+*.svgz                      -text diff
+*.webp                      -text diff
+
+# Fonts
+*.ttf                       -text diff
+*.eot                       -text diff
+*.otf                       -text diff
+*.woff                      -text diff
+*.woff2                     -text diff
+
+# Audio
+*.m4a                       -text diff
+*.mp3                       -text diff
+*.ogg                       -text diff
+
+# Video
+*.fla                       -text diff
+*.flv                       -text diff
+*.m4v                       -text diff
+*.mov                       -text diff
+*.mp4                       -text diff
+*.mpeg                      -text diff
+*.mpg                       -text diff
+*.ogv                       -text diff
+*.swf                       -text diff
+*.webm                      -text diff

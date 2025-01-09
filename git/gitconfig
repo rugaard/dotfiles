@@ -1,0 +1,405 @@
+[alias]
+
+  # List all git aliases.
+  alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1 => \\2/' | grep -v 'alias'| awk 'BEGIN { FS = \"=>\" }{ printf(\"%-20s=>%s\\n\", $1,$2)}'|sort
+
+  # Stage all unstaged.
+  all = add -A
+
+  # Amend the currently staged files to the latest commit.
+  amend = commit --amend --reuse-message=HEAD
+
+  # List local branches including last commit.
+  b = branch -v
+
+  # List remote branches including last commit.
+  br = branch -r -v
+
+  # Clone a repository including all submodules.
+  c = clone --recursive
+
+  # Commit staged changes with a message.
+  cm = commit -m
+
+  # Commit staged changes with a message.
+  cm-no = commit --no-verify -m
+
+  # Switch to a branch, creating it if necessary.
+  co = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+
+  # Show the diff of everything you haven't pushed yet.
+  di = !git-unpushed
+
+  # Show the diffstat of everything you haven't pushed yet.
+  dis = !git-unpushed-stat
+
+  # Fetch latest branches and tags.
+  f = fetch
+
+  # Force push.
+  fpush = push --force-with-lease
+
+  # Commit unstaged changes as a "fixup" for another commit (useful during rebasing).
+  fixup = commit --fixup
+
+  # Allow `$ git git git...`.
+  git = !exec git
+
+  # Open GitHub file/blob page for FILE on LINE.
+  gh-open = !github-open
+
+  # Open the pull request page for <branch>, or the current branch if not specified.
+  gh-pr = !github-pull-request
+
+  # Make a github.com URL using the current repository's remote URLs to determine location.
+  gh-url = !github-url
+
+  # Removes old branches and other objects cleanup.
+  housekeeping = !git-housekeeping
+
+  # Show commits on <upstream> that do not exist on current branch.
+  in = !git-incoming
+  incoming = !git-incoming
+
+  # List commits with descriptions.
+  l = log --pretty=oneline --abbrev-commit
+
+  # List commits with descriptions and history graph.
+  lg = log --pretty=oneline --graph --abbrev-commit
+
+  # List commits in short form with branch/tag annotations.
+  ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+
+  # List commits showing changed files.
+  ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+
+  # List oneline commits showing dates.
+  lds = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+
+  # List oneline commits showing relative dates.
+  ld = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
+
+  # Nukes a branch locally and on the origin remote.
+  nuke = !git-nuke
+
+  # Show commits on current branch that do not exist on branch <upstream>.
+  out = !git-outgoing
+  outgoing = !git-outgoing
+
+  # Pull in remote changes for the current repository and all its submodules.
+  p = git pull --recurse-submodules
+
+  # Promotes a local topic branch to a remote tracking branch of the same name.
+  promote = !git-promote
+
+  # Rank contributors by number of commits.
+  rank = shortlog --email --numbered --summary
+
+  # Like git-pull but shows a short and sexy log of changes after rebasing.
+  reup = !git-reup
+
+  # Mark all conflicted files as resolved.
+  resolved = !git-resolved
+
+  # View the current working tree status using the short format.
+  s = status -s
+
+  # View the current working tree status using the long format.
+  st = status
+
+  # Stash unstaged files.
+  ss = stash
+
+  # List all stashes.
+  sl = stash list
+
+  # Destroy stash.
+  sd = stash drop
+
+  # Apply/pop stash.
+  sa = stash apply
+  sp = stash pop
+
+  # Commit unsataged changes with a message, but mark as "squashable" for another commit (useful when rebasing).
+  squash = commit --squash -m
+
+  # Recall what you did on the last working day ..or be nosy and find what someone else did.
+  standup = !git-standup
+
+  # Show timestamp of last commit.
+  time-since = !git-time-since-last-commit
+
+  # Sets up your branch to track a remote branch.
+  track = !git-track
+
+  # Like git-pull but shows a short and sexy log of changes after rebasing.
+  up = !git-up
+
+  # Undo your last commit, but don't throw away your changes.
+  undo = !git-undo
+
+  # Shows git commits since the last tagged version.
+  unreleased = !git-unreleased
+
+  # List all tagged versions.
+  versions = !git-versions
+
+  # Shows the old revision vs. the new revision and the changes between the two revisions.
+  wth = !git-what-the-hell-just-happened
+
+  # Displays the state of your repository in a readable, easy-to-scan format.
+  wtf = !git-wtf
+
+  # Commits staged changes with a random commit message from whatthecommit.com.
+  yolo = !git-yolo
+
+[apply]
+
+  # Detect whitespace errors when applying a patch.
+  whitespace = fix
+
+[branch]
+
+  autoSetupMerge = true
+
+[core]
+
+  # Use 12 characters for the abbreviated commit hash. I can currently make
+  # do with 10, but this should provide a certain level of safety for the
+  # near-ish future. See the interesting and well-researched article at
+  # http://blog.cuviper.com/2013/11/10/how-short-can-git-abbreviate/
+  abbrev = 12
+
+  # Use custom `.gitattributes`.
+  attributesFile = ~/.gitattributes
+
+  # Disable line endings output conversion.
+  autocrlf = input
+
+  # Set comment character to something that allows mentioning issue numbers.
+  commentChar = ";"
+
+  # Use custom `.gitignore`.
+  excludesFile = ~/.gitignore
+
+  # Use diff-so-fancy as pager.
+  pager = diff-so-fancy | less --tabs=4 -RF
+
+  # Prevent showing files whose names contain non-ASCII symbols as unversioned.
+  # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+  precomposeunicode = false
+
+  # Output paths with "unusual" characters in the pathname by enclosing the pathname
+  # in a double-quote pair and with backslashes.
+  quotePath = true
+
+  # Make `git rebase` safer on macOS
+  # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx>
+  trustctime = false
+
+  # Speed up commands involving untracked files such as `git status`.
+  # See https://git-scm.com/docs/git-update-index#_untracked_cache
+  untrackedCache = true
+
+  # Treat spaces before tabs and all kinds of trailing whitespace as an error.
+  # [default] trailing-space: looks for spaces at the end of a line.
+  # [default] space-before-tab: looks for spaces before tabs at the beginning of a line.
+  whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+
+[color]
+
+  # Use colors in Git commands that are capable of colored output when
+  # outputting to the terminal.
+  ui = true
+
+[color "branch"]
+
+  current = 79 bold
+  local = 214 bold
+  remote = 211 bold
+
+[color "diff"]
+
+  meta = 208 bold
+  frag = 138 bold italic
+  func = 95 bold italic
+  commit = 214 bold
+  old = 204 bold
+  new = 79 bold
+  newMoved = 44 bold
+  oldMoved = 73 italic
+  whitespace = 204 bold 88
+
+[color "diff-highlight"]
+
+  oldNormal = 204 bold
+  oldHighlight = 204 bold 88
+  newNormal = 79 bold
+  newHighlight = 79 bold 29
+
+[color "status"]
+
+  added = 214 bold
+  changed = 79 bold
+  untracked = 138 bold
+  deleted = 204 bold
+  branch = 211 bold
+
+[commit]
+
+  # View the diff when editing commit message.
+  verbose = true
+
+[credential]
+
+  # Set macOS Keychain as helper when a username or password credential is needed.
+  helper = osxkeychain
+
+[diff]
+
+  # Find all lines which occur exactly once on both sides,
+  # then do longest common subsequence on those lines, matching them up.
+  algorithm = patience
+
+  # Enable experimental heuristics that shift
+  # diff hunk boundaries to make patches easier to read.
+  compactionHeuristic = true
+  indentHeuristic = true
+
+  # Show blocks of moved text of at least 20
+  # alphanumeric characters differently than adds/deletes.
+  #
+  # https://git-scm.com/docs/git-diff#git-diff-zebra
+  colorMoved = zebra
+
+  # Detect copies as well as renames.
+  renames = copies
+
+[diff "bin"]
+
+  # Use `hexdump` to diff binary files.
+  textconv = hexdump -v -C
+
+[diff-so-fancy]
+
+  changeHunkIndicators = true
+  markEmptyLines = false
+  stripLeadingSymbols = true
+
+[fetch]
+
+  # Remove any remote-tracking references that no longer exist on the remote.
+  prune = true
+
+[filter "lfs"]
+
+  # Specify the command to convert a worktree file's content to a blob upon checkin.
+  clean = git-lfs clean -- %f
+
+  # Convert between Large File Storage pointer and actual content.
+  process = git-lfs filter-process
+
+  # Specify the command to convert a blob object's content to a worktree file upon checkout.
+  smudge = git-lfs smudge -- %f
+
+  # Turn a content that by itself is unusable into a usable content.
+  required = true
+
+[github]
+
+  user = rugaard
+
+[grep]
+
+  lineNumber = true
+
+[help]
+
+  # Correct and execute mistyped commands.
+  autocorrect = 1
+
+[init]
+
+  defaultBranch = main
+
+[interactive]
+
+  diffFilter = diff-so-fancy --patch
+
+[log]
+
+  date = auto:human
+
+[merge]
+
+  # Use XCode's opendiff to handle merging.
+  tool = opendiff
+
+  # Include summaries of merged commits in newly created merge commit messages.
+  log = true
+
+[push]
+
+  # Automatically create and track remote branches.
+  autoSetupRemote = true
+
+  # Push branches even though they don't track an upstream.
+  default = matching
+
+  # Make `git push` automatically push relevant
+  # annotated tags when pushing branches out.
+  followTags = true
+
+[pull]
+
+  ff = only
+  rebase = false
+
+[rebase]
+
+  # Auto-squash "fixup!" and "squash!" commits.
+  autosquash = true
+
+  # Create a temporary stash entry before the operation begins.
+  autostash = true
+
+[rerere]
+
+  # Record resolved merge conflicts, so identical hunks can be merged automatically in the future.
+  enabled = true
+
+[status]
+
+  # Show the branch and tracking info even in short-format.
+  branch = true
+
+[user]
+
+  # Instruct Git to avoid trying to guess defaults for 'user.email' and 'user.name',
+  # and instead retrieve the values only from the configuration.
+  useConfigOnly = true
+
+[url "git@github.com:"]
+
+  insteadOf = "gh:"
+  pushInsteadOf = "github:"
+  pushInsteadOf = "git://github.com/"
+
+[url "git://github.com/"]
+
+  insteadOf = "github:"
+
+[url "git@gist.github.com:"]
+
+  insteadOf = "gst:"
+  pushInsteadOf = "gist:"
+  pushInsteadOf = "git://gist.github.com/"
+
+[url "git://gist.github.com/"]
+
+  insteadOf = "gist:"
+
+[include]
+
+  # Use seperate file to add username, GitHub token etc.
+  path = ~/.gitconfig.local
