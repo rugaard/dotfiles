@@ -200,13 +200,6 @@ main() {
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  # Check the state full disk access and SIP.
-
-  has_full_disk_access && HAS_FULL_DISK_ACCESS=true
-  is_sip_disabled && SIP_DISABLED=true
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   skip_questions "${@}" && SKIP_QUESTIONS=true
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -221,25 +214,6 @@ main() {
 
   printf "%s" "${BASH_SOURCE[0]}" | grep "setup.sh" &> /dev/null \
     || download_dotfiles
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  # if ! ${HAS_FULL_DISK_ACCESS}; then
-  #  printf "\n"
-  #  print_warning "Full disk access is required!\n"
-  #  print_in_white "   This application does not have full disk access.\n\n"
-  #  print_in_white "   Without full disk access, this setup script will not be able\n"
-  #  print_in_white "   to complete most of it's setting changes and installation tasks.\n\n"
-  #  print_in_white "   Go to "
-  #  print_in_teal "System Preferences > Security & Privacy"
-  #  print_in_white " and add this terminal app\n"
-  #  print_in_white "   to the "
-  #  print_in_green "Full Disk Access"
-  #  print_in_white ", restart the app and re-run this script.\n\n"
-  #  print_in_white "   Alternatively you can disable System Integration Protection (SIP):\n"
-  #  print_in_purple "  https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection\n"
-  #  exit 1;
-  # fi
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

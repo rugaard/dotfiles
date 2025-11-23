@@ -136,7 +136,8 @@ main() {
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  execute "find '${HOME}/Library/Application Support/Dock' -name '*-*.db' -maxdepth 1 -delete" \
+  execute "mkdir -p '${HOME}/Library/Application Support/Dock' && \
+          find '${HOME}/Library/Application Support/Dock' -name '*-*.db' -maxdepth 1 -delete" \
     "Reset Launchpad, but keep the desktop wallpaper intact"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

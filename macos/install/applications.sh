@@ -26,6 +26,10 @@ main() {
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  brew_install_cask "ChatGPT" "chatgpt"
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   brew_install_cask "Discord" "discord"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -35,10 +39,6 @@ main() {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   brew_install_cask "Google Chrome" "google-chrome"
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  brew_install_cask "IconChamp" "iconchamp"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -52,7 +52,7 @@ main() {
 
   brew_install_cask "Postman" "postman"
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -s
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   brew_install_cask "Sequel Ace" "sequel-ace"
 

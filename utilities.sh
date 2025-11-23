@@ -21,18 +21,14 @@ ask_for_sudo() {
 
   # Ask for the administrator password upfront.
 
-  sudo -v &> /dev/null
+  sudo -v
 
   # Update existing `sudo` time stamp
   # until this script has finished.
   #
   # https://gist.github.com/cowboy/3118588
 
-  while true; do
-      sudo -n true
-      sleep 60
-      kill -0 "$$" || exit
-  done &> /dev/null &
+  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 }
 
@@ -432,25 +428,5 @@ hardlink() {
       fi
     fi
   fi
-
-}
-
-has_full_disk_access() {
-
-    [[ $(plutil -lint /Library/Preferences/com.apple.TimeMachine.plist) ]] && return 0 || return 1
-
-}
-
-is_sip_disabled() {
-
-    local status=$(/usr/bin/csrutil status | awk '/status/ {print $5}' | sed 's/\.//')
-    [[ "${status}" == 'disabled' ]] && return 0 || return 1
-
-}
-
-is_authed_root_disabled() {
-
-    local status=$(/usr/bin/csrutil authenticated-root status | awk '/status/ {print $4}' | sed 's/\.//')
-    [[ "${status}" == 'disabled' ]] && return 0 || return 1
 
 }

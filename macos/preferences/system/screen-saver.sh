@@ -25,14 +25,6 @@ main() {
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  execute "defaults -currentHost write com.apple.screensaver moduleDict -dict \
-          moduleName -string "Aerial" \
-          path -string '${HOME}/Library/Screen Savers/Aerial.saver' \
-          type -int 0" \
-    "Set 'Aerial' as active screen saver"
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   printf "\n"
 
 }

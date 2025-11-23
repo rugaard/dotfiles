@@ -95,7 +95,6 @@ main() {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   install_xcode_command_line_tools
-  agree_with_xcode_license
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -108,6 +107,7 @@ main() {
     printf "\n"
     install_xcode
     set_xcode_developer_directory
+    agree_with_xcode_license
   fi
 
 }

@@ -89,11 +89,6 @@ main() {
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  execute "defaults write com.apple.universalaccess showWindowTitlebarIcons -bool true" \
-    "Show icon in title bar"
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   execute "defaults write com.apple.finder _FXShowPosixPathInTitle -bool false" \
     "Do not use full POSIX path as window title"
 

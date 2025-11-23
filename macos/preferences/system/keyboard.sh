@@ -21,10 +21,8 @@ main() {
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  execute "defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true && \
-          defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true && \
-          defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144" \
-    "Use scroll gesture with the Ctrl (^) modifier key to zoom"
+  execute "defaults write com.apple.HIToolbox AppleFnUsageType -int 2" \
+    "Remap the emoji picker to the Fn key"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

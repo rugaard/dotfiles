@@ -43,10 +43,12 @@ main() {
   print_subheader "Services"
 
   brew_install "OpenSearch" "opensearch"
+  brew_install "Typesense" "typesense/tap/typesense-server"
 
   print_in_purple "\n   Starting services\n\n"
 
   execute "brew services restart opensearch" "OpenSearch"
+  execute "brew services restart typesense-server" "Typesense"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

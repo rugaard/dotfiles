@@ -14,7 +14,6 @@ main() {
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  ./system/aerial.sh
   ./system/bluetooth.sh
   ./system/dashboard.sh
   ./system/dock.sh

@@ -25,6 +25,7 @@ main() {
   print_subheader "Applications"
 
   brew_install_cask "Docker" "docker"
+  brew_install_cask "PHPStorm" "phpstorm "
   brew_install_cask "Visual Studio Code" "visual-studio-code"
 
   print_in_purple "\n   Extensions for Visual Studio Code\n\n"
@@ -65,6 +66,7 @@ main() {
 
   print_subheader "Command line tools"
 
+  brew_install "Cloudflared" "cloudflared"
   brew_install "DiffSoFancy" "diff-so-fancy"
   brew_install "EditorConfig" "editorconfig"
   brew_install "Git" "git"
@@ -107,17 +109,30 @@ main() {
 
   print_subheader "PHP"
 
-  brew_install "Latest version" "php"
-  brew_install "PHP 8.3" "php@8.3"
+  brew_tap "shivammathur/php"
+  brew_tap "shivammathur/extensions"
 
+  print_in_purple "\n   PHP 8.5\n\n"
+  brew_install "PHP" "php"
+  brew_install "Extension: Intl" "php-intl"
+  brew_install "Extension: PHPRedis" "shivammathur/extensions/phpredis@8.5"
+  brew_install "Extension: Imagick" "shivammathur/extensions/imagick@8.5"
+  brew_install "Extension: PCOV" "shivammathur/extensions/pcov@8.5"
+
+  print_in_purple "\n   PHP 8.4\n\n"
+  brew_install "PHP" "shivammathur/php/php@8.4"
+  brew_install "Extension: PHPRedis" "shivammathur/extensions/phpredis@8.4"
+  brew_install "Extension: Imagick" "shivammathur/extensions/imagick@8.4"
+  brew_install "Extension: PCOV" "shivammathur/extensions/pcov@8.4"
+
+  print_in_purple "\n   PHP 8.3\n\n"
+  brew_install "PHP" "shivammathur/php/php@8.3"
+  brew_install "Extension: PHPRedis" "shivammathur/extensions/phpredis@8.3"
+  brew_install "Extension: Imagick" "shivammathur/extensions/imagick@8.3"
+  brew_install "Extension: PCOV" "shivammathur/extensions/pcov@8.3"
+
+  print_in_purple "\n   Applications\n\n"
   brew_install_cask "PHP Monitor" "phpmon" "--" "nicoverbruggen/cask"
-
-  print_in_purple "\n   Extensions\n\n"
-
-  install_php_extension "Igbinary" "igbinary"
-  install_php_extension "ImageMagick driver" "imagick"
-  install_php_extension "Redis driver" "redis"
-  install_php_extension "XDebug" "xdebug"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

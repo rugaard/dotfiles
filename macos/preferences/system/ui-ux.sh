@@ -15,20 +15,46 @@ main() {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   execute "defaults write -g AppleInterfaceStyleSwitchesAutomatically -bool true" \
-    "Automatically switch between light and dark mode."
+    "Automatically switch between light and dark mode"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  local currentUserUID="CBUser-$(dscl . -read ~ GeneratedUID | sed 's/GeneratedUID: //')"
+    execute "defaults write com.apple.Siri StatusMenuVisible -bool false && \
+            defaults write com.apple.assistant.support \"Assistant Enabled\" -bool false" \
+      "Disable Siri"
 
-  execute "sudo /usr/libexec/PlistBuddy -c 'Set :$currentUserUID:CBBlueLightReductionCCTTargetRaw 3269.201' /var/root/Library/Preferences/com.apple.CoreBrightness.plist && \
-          sudo /usr/libexec/PlistBuddy -c 'Set :$currentUserUID:CBBlueReductionStatus:AutoBlueReductionEnabled 1' /var/root/Library/Preferences/com.apple.CoreBrightness.plist && \
-          sudo /usr/libexec/PlistBuddy -c 'Set :$currentUserUID:CBBlueReductionStatus:BlueLightReductionAlgoOverride 0' /var/root/Library/Preferences/com.apple.CoreBrightness.plist && \
-          sudo /usr/libexec/PlistBuddy -c 'Set :$currentUserUID:CBBlueReductionStatus:BlueReductionAvailable 1' /var/root/Library/Preferences/com.apple.CoreBrightness.plist && \
-          sudo /usr/libexec/PlistBuddy -c 'Set :$currentUserUID:CBBlueReductionStatus:BlueReductionEnabled 1' /var/root/Library/Preferences/com.apple.CoreBrightness.plist && \
-          sudo /usr/libexec/PlistBuddy -c 'Set :$currentUserUID:CBBlueReductionStatus:BlueReductionMode 1' /var/root/Library/Preferences/com.apple.CoreBrightness.plist && \
-          sudo /usr/libexec/PlistBuddy -c 'Set :$currentUserUID:CBBlueReductionStatus:BlueReductionSunScheduleAllowed 1' /var/root/Library/Preferences/com.apple.CoreBrightness.plist" \
-    "Enable night shift from sunset to sunrise"
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+#  local currentUserUID="CBUser-$(dscl . -read ~ GeneratedUID | sed 's/GeneratedUID: //')"
+#
+#  execute "sudo /usr/libexec/PlistBuddy -c 'Set :$currentUserUID:CBBlueLightReductionCCTTargetRaw 3269.201' /var/root/Library/Preferences/com.apple.CoreBrightness.plist && \
+#          sudo /usr/libexec/PlistBuddy -c 'Set :$currentUserUID:CBBlueReductionStatus:AutoBlueReductionEnabled 1' /var/root/Library/Preferences/com.apple.CoreBrightness.plist && \
+#          sudo /usr/libexec/PlistBuddy -c 'Set :$currentUserUID:CBBlueReductionStatus:BlueLightReductionAlgoOverride 0' /var/root/Library/Preferences/com.apple.CoreBrightness.plist && \
+#          sudo /usr/libexec/PlistBuddy -c 'Set :$currentUserUID:CBBlueReductionStatus:BlueReductionAvailable 1' /var/root/Library/Preferences/com.apple.CoreBrightness.plist && \
+#          sudo /usr/libexec/PlistBuddy -c 'Set :$currentUserUID:CBBlueReductionStatus:BlueReductionEnabled 1' /var/root/Library/Preferences/com.apple.CoreBrightness.plist && \
+#          sudo /usr/libexec/PlistBuddy -c 'Set :$currentUserUID:CBBlueReductionStatus:BlueReductionMode 1' /var/root/Library/Preferences/com.apple.CoreBrightness.plist && \
+#          sudo /usr/libexec/PlistBuddy -c 'Set :$currentUserUID:CBBlueReductionStatus:BlueReductionSunScheduleAllowed 1' /var/root/Library/Preferences/com.apple.CoreBrightness.plist" \
+#    "Enable night shift from sunset to sunrise"
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  execute "defaults write NSGlobalDomain com.apple.sound.beep.feedback -integer 1" \
+    "Enable beep feedback when changing volume"
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  execute "defaults write com.apple.PowerChime ChimeOnAllHardware -bool true" \
+    "Enable beep feedback plugging in the power adapter"
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  execute "defaults -currentHost write com.apple.controlcenter Bluetooth -int 18" \
+    "Show Bluetooth icon in the menu bar"
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  execute "defaults -currentHost write com.apple.controlcenter Sound -int 18" \
+    "Show Volume icon in the menu bar"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -173,7 +199,9 @@ main() {
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  execute "/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user" \
+  execute "/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -r -domain local -domain system -domain user && \
+          killall Finder && \
+          killall Dock" \
     "Remove duplicates in the “Open With” menu"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -195,11 +223,6 @@ main() {
 
   execute "defaults write com.apple.helpviewer DevMode -bool true" \
     "Set Help Viewer windows to non-floating mode"
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  execute "defaults write com.apple.universalaccess reduceTransparency -int 0" \
-    "Enable transparency (menu bar, windows etc.)"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

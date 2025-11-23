@@ -224,6 +224,10 @@ main() {
   execute "defaults write -app Safari ProxiesInBookmarksBar '()'" \
     "Remove useless icons from bookmarks bar"
 
+  execute "defaults write com.apple.Safari EnableEnhancedPrivacyInPrivateBrowsing -bool true &&
+          defaults write com.apple.Safari EnableEnhancedPrivacyInRegularBrowsing -bool true " \
+    "Use advanced tracking and fingerprinting protection in all browsing."
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   execute "defaults write -app Safari FindOnPageMatchesWordStartsOnly -bool false" \

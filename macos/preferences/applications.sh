@@ -18,7 +18,6 @@ main() {
   ./applications/alfred.sh
   ./applications/app-store.sh
   ./applications/calendar.sh
-  ./applications/contacts.sh
   ./applications/disk-utility.sh
   ./applications/firefox.sh
   ./applications/google-chrome.sh
