@@ -36,6 +36,9 @@
   # Show the diffstat of everything you haven't pushed yet.
   dis = !git-unpushed-stat
 
+  # Delete all local branches that have been merged into HEAD.
+  delete-local-merged = !git-delete-local-merged
+
   # Fetch latest branches and tags.
   f = fetch
 
