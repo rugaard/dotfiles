@@ -17,7 +17,7 @@ path=(
 	"${ZDOTDIR:-$HOME}/.dotfiles/bin"
 	"${ZDOTDOR:-$HOME}/.composer/vendor/bin"
 	"${ZDOTDOR:-$HOME}/.nvm"
-  /Applications/Visual Studio Code.app/Contents/Resources/app/bin
+	"/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 )
 
 # Set the list of directories that Zsh should look for functions
@@ -164,4 +164,6 @@ export COMPOSER_DISABLE_XDEBUG_WARN=1
 #
 # Node version manager (NVM)
 #
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

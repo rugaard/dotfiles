@@ -28,7 +28,7 @@
   cm-no = commit --no-verify -m
 
   # Switch to a branch, creating it if necessary.
-  co = "!f() { git checkout -B \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+  co = !git-switch
 
   # Show the diff of everything you haven't pushed yet.
   di = !git-unpushed
@@ -134,6 +134,9 @@
 
   # Recall what you did on the last working day ..or be nosy and find what someone else did.
   standup = !git-standup
+
+  # Switch to a branch, creating it if necessary.
+  switch = !git-switch
 
   # Show timestamp of last commit.
   time-since = !git-time-since-last-commit

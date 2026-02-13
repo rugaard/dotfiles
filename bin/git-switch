@@ -1,0 +1,6 @@
+#!/bin/sh
+
+branch="$1";
+git show-ref --verify --quiet "refs/heads/$branch" && exec git switch "$branch";
+git show-ref --verify --quiet "refs/remotes/origin/$branch" && exec git switch -c "$branch" --track "origin/$branch";
+exec git switch -c "$branch";
